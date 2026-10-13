@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A Student Result Management System demonstrating real-world uses of arrays as a data structure.">
+<title>ArrayWise | Student Result Management System</title>
+<style>
+:root{--navy:#14213d;--blue:#2457c5;--blue2:#eaf0ff;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0;--bg:#f5f7fb;--white:#fff;--green:#0f8a60;--red:#c24141;--amber:#b7791f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:linear-gradient(125deg,#14213d,#2457c5);color:white;padding:25px max(22px,calc((100% - 1180px)/2)) 32px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.12rem;letter-spacing:.2px}.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#ffffff20;border:1px solid #ffffff50;font-size:1.3rem}
+.hero{max-width:1180px;margin:26px auto 0}.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:.75rem;font-weight:800;color:#c9d8ff}.hero h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin:9px 0 12px;max-width:800px}.hero p{color:#e0e9ff;max-width:750px;margin:0;font-size:1rem}
+main{max-width:1180px;margin:26px auto;padding:0 20px 50px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:30px 0 14px}.section-head h2{margin:0;font-size:1.35rem;color:var(--navy)}.section-head p{margin:4px 0 0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat,.panel,.info-card{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 20px #15264b08}.stat{padding:18px}.stat .label{color:var(--muted);font-size:.83rem;font-weight:650}.stat .value{font-size:1.8rem;font-weight:800;color:var(--navy);margin-top:5px}.stat .hint{font-size:.78rem;color:var(--muted)}
+.workspace{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}.panel{padding:20px}.panel h3{margin:0 0 4px;color:var(--navy);font-size:1.08rem}.sub{color:var(--muted);font-size:.86rem;margin:0 0 18px}
+label{display:block;font-size:.83rem;font-weight:700;margin:12px 0 6px}input,select{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:11px 12px;background:white;color:var(--ink);font:inherit;outline:none}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2457c51a}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:9px;padding:11px 14px;font:inherit;font-weight:750;cursor:pointer;transition:.15s}.btn:hover{transform:translateY(-1px)}.primary{background:var(--blue);color:white;width:100%;margin-top:17px}.secondary{background:var(--blue2);color:var(--blue)}.danger{background:#fff0f0;color:var(--red);padding:7px 10px;font-size:.8rem}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}.toolbar input{flex:1;min-width:180px}.toolbar select{width:auto;min-width:130px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:.88rem}th{font-size:.75rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);background:#f8fafc}tbody tr:hover{background:#f8faff}.student-name{font-weight:750}.student-id{color:var(--muted);font-size:.78rem}.score{font-weight:800}.pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:.75rem;font-weight:800}.pass{background:#dcfce7;color:#166534}.fail{background:#fee2e2;color:#991b1b}.empty{text-align:center;padding:35px 15px;color:var(--muted)}.empty strong{display:block;color:var(--ink);margin-bottom:5px}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.info-card{padding:18px}.iconbox{width:38px;height:38px;border-radius:11px;background:var(--blue2);color:var(--blue);display:grid;place-items:center;font-size:1.15rem;margin-bottom:10px}.info-card h3{font-size:1rem;margin:0 0 7px;color:var(--navy)}.info-card p{margin:0;color:var(--muted);font-size:.88rem}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.step{border:1px solid var(--line);background:#fff;border-radius:13px;padding:15px}.step-num{font-size:.74rem;font-weight:850;color:var(--blue);letter-spacing:1px}.step h4{margin:6px 0;font-size:.95rem}.step p{margin:0;color:var(--muted);font-size:.83rem}.code-note{background:#101b31;color:#e2e8f0;border-radius:13px;padding:18px;overflow:auto;font: .88rem/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}.code-note .comment{color:#93c5fd}.notice{margin-top:15px;padding:13px 15px;background:#fff7e6;border:1px solid #f5d58a;border-radius:10px;color:#704d12;font-size:.85rem}footer{text-align:center;color:var(--muted);padding:25px 15px;border-top:1px solid var(--line);font-size:.82rem}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.info-grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.hero{margin-top:20px}}
+@media(max-width:480px){header{padding:20px}.stats{gap:9px}.stat{padding:13px}.stat .value{font-size:1.5rem}.field-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}main{padding:0 13px 35px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">▦</div><span>ArrayWise <span style="font-weight:500;opacity:.8">/ Learning Project</span></span></div>
+  <div class="hero">
+    <div class="eyebrow">Real-world application of data structures</div>
+    <h1>Student Result Management System</h1>
+    <p>Explore how arrays can organize student records, calculate results, and make information easier to process. Add sample students, analyse scores, and learn why arrays are useful in a real-world system.</p>
+  </div>
+</header>
+<main>
+  <div class="section-head"><div><h2>1. Introduction</h2><p>Understanding arrays and the Student Result Management System.</p></div></div>
+  <section class="panel">
+    <p style="margin-top:0">An <strong>array</strong> is a data structure used to store multiple elements of the same data type under one variable name. Each element can be accessed using its index.</p>
+    <p style="margin-bottom:0">A <strong>Student Result Management System</strong> is an application that stores, processes, and displays students' academic results. Arrays can be used to store students' marks, making it easier to calculate averages, find the highest marks, and retrieve students' results.</p>
+  </section>
+
+  <div class="section-head"><div><h2>2. Real-World Applications of Arrays</h2><p>Arrays are used in many real-world applications, including:</p></div></div>
+  <section class="info-grid">
+    <article class="info-card"><div class="iconbox">🎓</div><h3>1. Student Result Management System</h3><p>Stores students' marks and helps calculate their grades.</p></article>
+    <article class="info-card"><div class="iconbox">🏦</div><h3>2. Banking System</h3><p>Stores transaction amounts for processing and analysis.</p></article>
+    <article class="info-card"><div class="iconbox">📦</div><h3>3. Inventory Management System</h3><p>Stores product quantities and prices.</p></article>
+    <article class="info-card"><div class="iconbox">🏥</div><h3>4. Hospital Management System</h3><p>Stores lists of patient information.</p></article>
+    <article class="info-card"><div class="iconbox">📝</div><h3>5. Online Examination System</h3><p>Stores examination questions and students' answers.</p></article>
+  </section>
+
+  <div class="section-head"><div><h2>Interactive Student Results</h2><p>Try the website: add students, search records, and analyse marks.</p></div></div>
+  <div class="section-head"><div><h2>Results overview</h2><p>Summary updates automatically as student records change.</p></div></div>
+  <section class="stats" aria-label="Result summary">
+    <div class="stat"><div class="label">Students recorded</div><div class="value" id="totalCount">5</div><div class="hint">Records in the array</div></div>
+    <div class="stat"><div class="label">Class average</div><div class="value" id="average">78.4%</div><div class="hint">Mean of all marks</div></div>
+    <div class="stat"><div class="label">Highest mark</div><div class="value" id="highest">92%</div><div class="hint" id="highestName">Highest student score</div></div>
+    <div class="stat"><div class="label">Lowest mark</div><div class="value" id="lowest">64%</div><div class="hint" id="lowestName">Lowest student score</div></div>
+  </section>
+
+  <div class="section-head"><div><h2>Manage student results</h2><p>Demonstration data includes 10 students who need improvement and is held in a JavaScript array in this browser session.</p></div></div>
+  <section class="workspace">
+    <form class="panel" id="studentForm">
+      <h3>Add a student</h3><p class="sub">Enter a name, student ID, and mark out of 100.</p>
+      <label for="studentName">Student full name</label><input id="studentName" maxlength="70" placeholder="e.g. Ama Mensah" required>
+      <label for="studentId">Student ID</label><input id="studentId" maxlength="30" placeholder="e.g. IT/24/001" required>
+      <label for="mark">Mark (0–100)</label><input id="mark" type="number" min="0" max="100" step="1" placeholder="e.g. 85" required>
+      <button class="btn primary" type="submit">＋ Add student result</button>
+      <p id="formMessage" role="status" style="font-size:.82rem;color:var(--muted);margin:10px 0 0"></p>
+    </form>
+    <section class="panel">
+      <h3>Student records</h3><p class="sub">Search, review, and remove records from the array.</p>
+      <div class="toolbar"><input id="search" placeholder="Search by name or student ID…" aria-label="Search students"><select id="resultFilter" aria-label="Filter by result"><option value="all">All results</option><option value="pass">Pass (50+)</option><option value="fail">Needs improvement (&lt;50)</option></select><button class="btn secondary" id="resetBtn" type="button">Reset demo</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Student</th><th>Student ID</th><th>Mark</th><th>Result</th><th>Action</th></tr></thead><tbody id="studentRows"></tbody></table></div>
+      <div class="empty" id="emptyState" hidden><strong>No matching students</strong>Try another search or add a student record.</div>
+    </section>
+  </section>
+
+  <div class="section-head"><div><h2>Why are arrays necessary?</h2><p>Arrays help the system store and process related information in an organized way.</p></div></div>
+  <section class="info-grid">
+    <article class="info-card"><div class="iconbox">⚡</div><h3>1. Efficiency — Work Faster</h3><p>Arrays allow the system to store and access students' marks easily. This makes it faster to retrieve marks and calculate students' results.</p></article>
+    <article class="info-card"><div class="iconbox">▤</div><h3>2. Clarity — Keep Data Organized</h3><p>Arrays organize students' marks under one variable name, making the results easier to manage, understand, and display.</p></article>
+    <article class="info-card"><div class="iconbox">↔</div><h3>3. Flexibility — Handle Changes</h3><p>Arrays allow the system to process students' marks, provided the array has enough space. If more students need to be added, the system can use a larger array or a suitable alternative.</p></article>
+    <article class="info-card"><div class="iconbox">↻</div><h3>4. Reusability — Use It Again</h3><p>The same array-processing methods can be reused to calculate averages, find the highest and lowest marks, and display results for different groups of students.</p></article>
+    <article class="info-card"><div class="iconbox">✓</div><h3>5. Correctness — Produce Accurate Results</h3><p>Arrays allow the system to access marks using their indices. When combined with correct calculations and proper checks, they help the system produce accurate results.</p></article>
+  </section>
+
+  <div class="section-head"><div><h2>How the array powers this website</h2><p>The application follows a simple data-processing flow.</p></div></div>
+  <section class="steps">
+    <article class="step"><div class="step-num">STEP 01</div><h4>Collect</h4><p>The user enters a student's name, ID, and mark through the form.</p></article>
+    <article class="step"><div class="step-num">STEP 02</div><h4>Store</h4><p>The new student record is added to the <code>students</code> array.</p></article>
+    <article class="step"><div class="step-num">STEP 03</div><h4>Process</h4><p>Array methods and loops calculate totals, average, highest, and lowest marks.</p></article>
+    <article class="step"><div class="step-num">STEP 04</div><h4>Display</h4><p>The table and summary cards update to show the current results.</p></article>
+  </section>
+
+  <div class="section-head"><div><h2>Array concept used</h2><p>A simplified view of the data structure in the JavaScript code.</p></div></div>
+  <pre class="code-note"><span class="comment">// An array holds the student records for this demo</span>
+const students = [
+  { name: "Kojo Asare", id: "IT/24/001", mark: 75 },
+  { name: "Ama Mensah", id: "IT/24/002", mark: 82 },
+  { name: "Yaw Boateng", id: "IT/24/003", mark: 68 }
+];
+
+<span class="comment">// Loop through the array to process each student's mark</span>
+let total = 0;
+for (const student of students) {
+  total += student.mark;
+}
+const average = students.length ? total / students.length : 0;</pre>
+  <div class="notice"><strong>Project limitation:</strong> This is an educational front-end demonstration. The array exists in memory, so records added or removed will reset when the page is refreshed. It does not use a database or a server. Real institutions would normally need secure storage, authentication, backups, and privacy controls.</div>
+
+  <div class="section-head"><div><h2>Conclusion</h2></div></div>
+  <section class="panel"><p style="margin:0">A Student Result Management System is a practical example of arrays in the real world. Arrays allow student records to be grouped and processed with loops, helping the system calculate averages, identify the highest and lowest marks, and display results. Arrays are useful for learning and small demonstrations, although a production school system would need persistent, secure storage as well.</p></section>
+</main>
+<footer>ArrayWise · Student Result Management System · Built to demonstrate arrays as a data structure</footer>
+<script>
+const initialStudents = [
+  { name: "Kojo Asare", id: "IT/24/001", mark: 75 },
+  { name: "Ama Mensah", id: "IT/24/002", mark: 82 },
+  { name: "Yaw Boateng", id: "IT/24/003", mark: 68 },
+  { name: "Esi Owusu", id: "IT/24/004", mark: 92 },
+  { name: "Kofi Addo", id: "IT/24/005", mark: 75 },
+  { name: "Abena Ofori", id: "IT/24/006", mark: 42 },
+  { name: "Kwame Frimpong", id: "IT/24/007", mark: 35 },
+  { name: "Akosua Darko", id: "IT/24/008", mark: 48 },
+  { name: "Kweku Antwi", id: "IT/24/009", mark: 27 },
+  { name: "Adwoa Serwaa", id: "IT/24/010", mark: 44 },
+  { name: "Yaw Sarpong", id: "IT/24/011", mark: 39 },
+  { name: "Efua Nyarko", id: "IT/24/012", mark: 31 },
+  { name: "Nana Kofi Agyeman", id: "IT/24/013", mark: 46 },
+  { name: "Mabel Quaye", id: "IT/24/014", mark: 22 },
+  { name: "Daniel Tetteh", id: "IT/24/015", mark: 49 },
+  { name: "Priscilla Baah", id: "IT/24/016", mark: 41 },
+  { name: "Linda Acheampong", id: "IT/24/017", mark: 36 },
+  { name: "Michael Kwarteng", id: "IT/24/018", mark: 43 },
+  { name: "Sarah Appiah", id: "IT/24/019", mark: 29 },
+  { name: "Emmanuel Koranteng", id: "IT/24/020", mark: 47 },
+  { name: "Joyce Amankwah", id: "IT/24/021", mark: 33 },
+  { name: "Peter Mensimah", id: "IT/24/022", mark: 67 },
+  { name: "Grace Adjei", id: "IT/24/023", mark: 74 },
+  { name: "Samuel Aboagye", id: "IT/24/024", mark: 58 },
+  { name: "Rita Osei", id: "IT/24/025", mark: 86 },
+  { name: "Benjamin Owusu", id: "IT/24/026", mark: 53 }
+];
+// The main collection is an array. No database or local storage is used.
+let students = initialStudents.map(student => ({...student}));
+const $ = id => document.getElementById(id);
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+function updateSummary() {
+  const count = students.length;
+  const total = students.reduce((sum, student) => sum + student.mark, 0);
+  const high = count ? students.reduce((best, student) => student.mark > best.mark ? student : best) : null;
+  const low = count ? students.reduce((worst, student) => student.mark < worst.mark ? student : worst) : null;
+  $('totalCount').textContent = count;
+  $('average').textContent = count ? (total / count).toFixed(1) + '%' : '—';
+  $('highest').textContent = high ? high.mark + '%' : '—';
+  $('lowest').textContent = low ? low.mark + '%' : '—';
+  $('highestName').textContent = high ? high.name : 'No records yet';
+  $('lowestName').textContent = low ? low.name : 'No records yet';
+}
+function renderStudents() {
+  const query = $('search').value.trim().toLowerCase();
+  const filter = $('resultFilter').value;
+  const visible = students.filter(student => {
+    const matchesText = student.name.toLowerCase().includes(query) || student.id.toLowerCase().includes(query);
+    const matchesFilter = filter === 'all' || (filter === 'pass' ? student.mark >= 50 : student.mark < 50);
+    return matchesText && matchesFilter;
+  });
+  $('studentRows').innerHTML = visible.map(student => {
+    const originalIndex = students.indexOf(student);
+    const passed = student.mark >= 50;
+    return `<tr>
+      <td><div class="student-name">${escapeHTML(student.name)}</div></td>
+      <td><span class="student-id">${escapeHTML(student.id)}</span></td>
+      <td><span class="score">${student.mark}%</span></td>
+      <td><span class="pill ${passed ? 'pass' : 'fail'}">${passed ? 'Pass' : 'Needs improvement'}</span></td>
+      <td><button class="btn danger" type="button" data-remove="${originalIndex}" aria-label="Remove ${escapeHTML(student.name)}">Remove</button></td>
+    </tr>`;
+  }).join('');
+  $('emptyState').hidden = visible.length !== 0;
+  updateSummary();
+}
+$('studentForm').addEventListener('submit', event => {
+  event.preventDefault();
+  const name = $('studentName').value.trim();
+  const id = $('studentId').value.trim();
+  const mark = Number($('mark').value);
+  const message = $('formMessage');
+  if (!name || !id || $('mark').value === '' || !Number.isInteger(mark) || mark < 0 || mark > 100) {
+    message.textContent = 'Please enter a name, ID, and whole-number mark from 0 to 100.';
+    message.style.color = 'var(--red)';
+    return;
+  }
+  if (students.some(student => student.id.toLowerCase() === id.toLowerCase())) {
+    message.textContent = 'That student ID already exists. Please use a unique ID.';
+    message.style.color = 'var(--red)';
+    return;
+  }
+  students.push({name, id, mark});
+  $('studentForm').reset();
+  message.textContent = 'Student result added to the array.';
+  message.style.color = 'var(--green)';
+  renderStudents();
+});
+$('studentRows').addEventListener('click', event => {
+  const button = event.target.closest('[data-remove]');
+  if (!button) return;
+  students.splice(Number(button.dataset.remove), 1);
+  renderStudents();
+});
+$('search').addEventListener('input', renderStudents);
+$('resultFilter').addEventListener('change', renderStudents);
+$('resetBtn').addEventListener('click', () => {
+  students = initialStudents.map(student => ({...student}));
+  $('search').value = '';
+  $('resultFilter').value = 'all';
+  $('formMessage').textContent = 'Demo records restored.';
+  $('formMessage').style.color = 'var(--muted)';
+  renderStudents();
+});
+renderStudents();
+</script>
+</body>
+</html>
